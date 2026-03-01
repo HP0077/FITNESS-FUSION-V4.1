@@ -28,8 +28,9 @@ if ($isProduction) {
     define('DB_PASS', getenv('DB_PASS') ?: '');
 } else {
     // Local development (XAMPP / WAMP)
+    // NOTE: Check your XAMPP Control Panel for the MySQL port (default 3306, yours may be 3307).
     define('DB_HOST', 'localhost');
-    define('DB_PORT', '3307');
+    define('DB_PORT', getenv('DB_PORT') ?: '3307');
     define('DB_NAME', 'fitness_fusion_v2');
     define('DB_USER', 'root');
     define('DB_PASS', '');
@@ -55,6 +56,16 @@ define('BASE_URL', $protocol . '://' . $httpHost . $basePath);
 // ── Application Constants ──────────────────────────────────
 define('APP_NAME', 'Fitness Fusion');
 define('APP_ENV', $isProduction ? 'production' : 'development');
+
+// ── Static Assets (S3 in production, local in dev) ─────────
+// In production, static assets (logo, images) are served from an S3 bucket
+// for scalability, CDN caching, and to demonstrate Storage as a Service.
+// Locally, assets load from the project folder as usual.
+if ($isProduction) {
+    define('ASSET_URL', getenv('S3_ASSET_URL') ?: BASE_URL);
+} else {
+    define('ASSET_URL', BASE_URL);
+}
 
 // ── Error Reporting ────────────────────────────────────────
 if (APP_ENV === 'development') {

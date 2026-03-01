@@ -112,7 +112,7 @@ if (empty($state)) {
 </head>
 <body>
     <nav class="navbar">
-        <a href="<?= htmlspecialchars(BASE_URL) ?>/dashboard/dashboard.php" class="brand"><img src="<?= htmlspecialchars(BASE_URL) ?>/logo.png" alt="Logo">Fitness<span>Fusion</span></a>
+        <a href="<?= htmlspecialchars(BASE_URL) ?>/dashboard/dashboard.php" class="brand"><img src="<?= htmlspecialchars(ASSET_URL) ?>/logo.png" alt="Logo">Fitness<span>Fusion</span></a>
         <div class="nav-center">
             <a href="<?= htmlspecialchars(BASE_URL) ?>/dashboard/dashboard.php">Dashboard</a>
             <a href="<?= htmlspecialchars(BASE_URL) ?>/metrics/save_results.php">Metrics</a>

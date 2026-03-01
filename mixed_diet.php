@@ -1451,7 +1451,7 @@ $diet_plan = $diet_plans[$state] ?? null;
 <body>
 
 <nav class="navbar">
-    <a href="<?= BASE_URL ?>/dashboard/dashboard.php" class="brand"><img src="<?= BASE_URL ?>/logo.png" alt="Logo">Fitness<span>Fusion</span></a>
+    <a href="<?= BASE_URL ?>/dashboard/dashboard.php" class="brand"><img src="<?= ASSET_URL ?>/logo.png" alt="Logo">Fitness<span>Fusion</span></a>
     <div class="nav-center">
         <a href="<?= BASE_URL ?>/dashboard/dashboard.php">Dashboard</a>
         <a href="<?= BASE_URL ?>/metrics/save_results.php">Metrics</a>

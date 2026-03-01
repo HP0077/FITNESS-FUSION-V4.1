@@ -212,7 +212,7 @@ $weightHistory = array_reverse($stmtWeight->fetchAll()); // chronological order
 
 <!-- ── Navbar ─────────────────────────────────────────────── -->
 <nav class="navbar">
-    <a href="<?= BASE_URL ?>/dashboard/dashboard.php" class="brand"><img src="<?= BASE_URL ?>/logo.png" alt="Logo">Fitness<span>Fusion</span></a>
+    <a href="<?= BASE_URL ?>/dashboard/dashboard.php" class="brand"><img src="<?= ASSET_URL ?>/logo.png" alt="Logo">Fitness<span>Fusion</span></a>
     <div class="nav-center">
         <a href="<?= BASE_URL ?>/dashboard/dashboard.php" class="active">Dashboard</a>
         <a href="<?= BASE_URL ?>/metrics/save_results.php">Metrics</a>
