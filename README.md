@@ -61,13 +61,8 @@ User → Browser (HTML/CSS/JS) → PHP Backend (validation & logic) → MySQL Da
 
 ---
 
-## 🚀 Installation & Setup
-
 ### Prerequisites
 - XAMPP / WAMP (PHP, MySQL)
 - Git
 
-### Steps
-
-```bash
-git clone https://github.com/HP0077/FITNESS-FUSION-V4.git
+---
