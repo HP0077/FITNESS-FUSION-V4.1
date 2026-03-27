@@ -46,10 +46,18 @@ function getDB(): PDO
         $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
         return $pdo;
     } catch (PDOException $e) {
-        // Log the real error — never expose it to the browser
-        error_log('[Fitness Fusion] DB connection failed: ' . $e->getMessage());
+        $dsnContext = sprintf('host=%s;port=%s;db=%s', DB_HOST, DB_PORT, DB_NAME);
 
-        // Show a safe message to the user
+        // Log with context
+        error_log('[Fitness Fusion] DB connection failed (' . $dsnContext . '): ' . $e->getMessage());
+
+        // In development, show the reason to speed up debugging
+        if (APP_ENV === 'development') {
+            http_response_code(503);
+            exit('DB connection failed (' . $dsnContext . '): ' . htmlspecialchars($e->getMessage()));
+        }
+
+        // Production-safe message
         http_response_code(503);
         exit('Service temporarily unavailable. Please try again later.');
     }

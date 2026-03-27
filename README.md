@@ -204,7 +204,7 @@ This project is designed to be deployed on AWS, covering all major cloud service
 | **PaaS** | Elastic Beanstalk | Auto-deploys, scales, and monitors the PHP app |
 | **DBaaS** | RDS (MySQL) | Managed database — no manual install/backups |
 | **Storage as a Service** | S3 | Stores static assets (logo, images) via `ASSET_URL` |
-| **Security as a Service** | IAM + Security Groups + ACM | Access control, firewall rules, SSL/HTTPS, bcrypt |
+| **Security as a Service** | CloudFront + AWS WAF + ACM + IAM | Edge protection (SQLi/XSS managed rules), TLS, least-privilege access |
 
 ### AWS Architecture
 
@@ -217,7 +217,7 @@ User → [HTTPS] → Elastic Beanstalk (PaaS)
                         │
                         └── AWS S3 Bucket (Storage) — logo & static assets
                         
-Security: IAM Roles + Security Groups + ACM SSL Certificate
+Security: CloudFront + WAF + ACM + IAM Roles + Security Groups
 ```
 
 ### Step 1: Create RDS Database (DBaaS)
@@ -247,8 +247,8 @@ Security: IAM Roles + Security Groups + ACM SSL Certificate
 
 1. AWS Console → **Elastic Beanstalk** → **Create Application**
 2. Application name: `fitness-fusion`
-3. Platform: **PHP 8.1**
-4. Upload: Zip the entire project folder and upload
+3. Platform: **Docker** (single container) or **PHP 8.1**
+4. Upload: Zip the project (includes Dockerfile) and upload
 5. Under **Configuration → Software**, set environment variables:
    ```
    DB_HOST       = <your-rds-endpoint>
@@ -257,8 +257,11 @@ Security: IAM Roles + Security Groups + ACM SSL Certificate
    DB_USER       = ff_admin
    DB_PASS       = <your-rds-password>
    S3_ASSET_URL  = https://fitness-fusion-assets.s3.amazonaws.com
+   APP_ENV       = production
    ```
-6. Click **Create environment**
+6. Health check path: `/index.php`
+7. Optionally add `.ebextensions`/`.platform/hooks` to enable Apache rewrite if you add pretty URLs.
+8. Click **Create environment**
 
 ### Step 4: Configure Security (Security as a Service)
 
@@ -270,9 +273,27 @@ Security: IAM Roles + Security Groups + ACM SSL Certificate
 4. **App-level security (already built in):**
    - Passwords hashed with **bcrypt** (`password_hash()`)
    - Session fixation protection via `session_regenerate_id()`
-   - HTTP-only, SameSite session cookies
-   - HTTPS-only cookies in production
+   - HTTP-only, SameSite session cookies; Secure flag in production
+   - CSRF protection on login/signup forms
    - No credentials in code — all read from environment variables
+
+5. **Secrets & IAM:**
+   - Store DB creds in **SSM Parameter Store** or **Secrets Manager** and surface them as env vars.
+   - Attach an **instance profile**/role with least-privilege S3 read and SSM/Secrets access.
+
+### Cloud Deliverable Checklist (for reviews)
+
+- **IaaS:** Documented EC2 option running the Docker image with env vars pointing to RDS and S3.
+- **PaaS:** Elastic Beanstalk single-Docker deploy; health checks and env vars configured.
+- **DBaaS:** RDS MySQL with schema imported from `database/schema.sql`.
+- **Storage-as-a-Service:** S3 bucket for `logo.png` and other assets; served via `ASSET_URL` (optionally behind CloudFront).
+- **Security-as-a-Service:** CloudFront + WAF managed rules + ACM TLS; IAM roles and Security Groups restricting DB to app tier only.
+- **Verification:**
+  - Login/register works against RDS
+  - Metrics save in `metrics/save_results.php`
+  - Assets load from S3/CloudFront
+  - HTTPS enforced via CloudFront/ACM
+  - WAF logs visible for requests
 
 ### How the Code Handles Local vs Production
 

@@ -21,17 +21,18 @@ $isProduction = isset($_SERVER['SERVER_NAME'])
 // ── Database Configuration ─────────────────────────────────
 if ($isProduction) {
     // Production (AWS EC2) — pull from environment variables
+    // Default port 3306 is typical for RDS; override via env when needed.
     define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
     define('DB_PORT', getenv('DB_PORT') ?: '3306');
-    define('DB_NAME', getenv('DB_NAME') ?: 'fitness_fusion_v2');
+    define('DB_NAME', getenv('DB_NAME') ?: 'fitness_fusion_v4');
     define('DB_USER', getenv('DB_USER') ?: 'ff_admin');
     define('DB_PASS', getenv('DB_PASS') ?: '');
 } else {
     // Local development (XAMPP / WAMP)
-    // NOTE: Check your XAMPP Control Panel for the MySQL port (default 3306, yours may be 3307).
-    define('DB_HOST', 'localhost');
-    define('DB_PORT', getenv('DB_PORT') ?: '3307');
-    define('DB_NAME', 'fitness_fusion_v2');
+    // Use 127.0.0.1 to force TCP and honor the non-default port (avoids named-pipe lookups on Windows).
+    define('DB_HOST', '127.0.0.1');
+    define('DB_PORT', '3307');
+    define('DB_NAME', 'fitness_fusion_v4');
     define('DB_USER', 'root');
     define('DB_PASS', '');
 }
