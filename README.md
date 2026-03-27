@@ -38,8 +38,6 @@ User → Browser (HTML/CSS/JS) → PHP Backend (validation & logic) → MySQL Da
 
 ## 📸 Screenshots
 
-## 📸 Screenshots
-
 ### 🏠 Home Page
 ![Home](screenshots/index.png)
 
