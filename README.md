@@ -38,11 +38,28 @@ User → Browser (HTML/CSS/JS) → PHP Backend (validation & logic) → MySQL Da
 
 ## 📸 Screenshots
 
-### Dashboard
+## 📸 Screenshots
+
+### 🏠 Home Page
+![Home](screenshots/index.png)
+
+### 🔐 Login Page
+![Login](screenshots/login.png)
+
+### ➕ Update Metrics
+![Update Metrics](screenshots/update_metrics.png)
+
+### 📊 Dashboard
 ![Dashboard](screenshots/dashboard.png)
 
-### Health Report
-![Report](screenshots/report.png)
+### 📄 Health Report
+![Health Report](screenshots/health_report.png)
+
+### 🥗 Diet Plan
+![Diet Plan](screenshots/dietplan.png)
+
+### 🏋️ Exercise Plan
+![Exercise Plan](screenshots/exercise.png)
 
 ---
 
